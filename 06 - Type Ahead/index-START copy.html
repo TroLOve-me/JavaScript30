@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <form class="search-form">
+        <input type="text" class="search" placeholder="City or State">
+        <ul class="suggestions">
+            <li>Filter for a city</li>
+            <li>or a state</li>
+        </ul>
+    </form>
+    <script>
+        const endpoint = 'https://raw.githubusercontent.com/TroLOve-me/JavaScript30/master/06%20-%20Type%20Ahead/cities.json';
+        let cities = [];
+        const prom = fetch(endpoint)
+            .then(blob => blob.json())
+            .then(data => cities.push(...data));
+
+        function findMatches(words, cities) {
+            return cities.filter(place => {
+                //figure out which city or state was a matchArray
+                const regex = new RegExp(words, 'gi');
+                return place.city.match(regex) || place.state.match(regex);
+
+            })
+        }
+
+        function displayMatches() {
+            //console.log(this.value);
+            let matchArr = findMatches(this.value, cities);
+            let html = matchArr.map(place => {
+                const regex = new RegExp(this.value, 'gi');
+                const cityName = place.city.replace(regex, `<span class="highlight">${this.value}</span>`);
+                const stateName = place.state.replace(regex, `<span class="highlight">${this.value}</span>`);
+                var population = parseInt(place.population);
+                return `<li>
+                        <span class="name">${cityName} ${stateName}</span>
+                        <span class="population">${population.toLocaleString()}</span>
+                        <li>`
+            }).join('');
+            suggestions.innerHTML = html;
+        }
+        const searchBar = document.querySelector('.search');
+        const suggestions = document.querySelector('.suggestions');
+        searchBar.addEventListener('change', displayMatches);
+        searchBar.addEventListener('keyup', displayMatches);
+    </script>
+</body>
+
+</html>
