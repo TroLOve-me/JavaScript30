@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Console Tricks!</title>
+</head>
+
+<body>
+
+    <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+    <script>
+        const dogs = [{
+            name: 'Snickers',
+            age: 2
+        }, {
+            name: 'hugo',
+            age: 8
+        }];
+
+        function makeGreen() {
+            const p = document.querySelector('p');
+            p.style.color = '#BADA55';
+            p.style.fontSize = '50px';
+        }
+
+        // Regular
+        console.log('hey you');
+        // Interpolated
+        console.log('hello i am a %s string ', '💩');
+        // Styled
+        console.log('%c i am something', 'font-size:40px;color:lightblue;font-weight:700;');
+        // warning!
+        console.warn('hey we are never ever getting back together');
+        // Error :|
+        console.error('shit!');
+        // Info
+        console.info('a crocodiles eat 3-4 people per year');
+        // Testing
+        console.assert(1 === 2, 'that is not right');
+
+        // clearing
+        console.clear();
+        // Viewing DOM Elements
+        const p = document.querySelector('p');
+        console.log(p);
+        console.dir(p);
+        console.assert(p.classList.contains('oops'), 'that is wrong');
+        // Grouping together
+        dogs.forEach(dog => {
+            console.groupCollapsed(`${dog.name}`)
+            console.log(`${dog.name}is ${dog.age}years old`);
+            console.groupEnd(`${dog.name}`);
+        });
+        // counting
+        console.count('wes');
+        console.count('wes');
+        console.count('Jerry');
+        console.count('Jerry');
+        console.count('wes');
+        console.count('Jerry');
+        console.count('wes');
+        console.count('wes');
+        console.count('wes');
+        console.count('wes');
+        console.count('wes');
+        console.count('wes');
+        console.count('wes');
+
+        // timing
+        console.time('fetch data from github');
+        fetch('https://raw.githubusercontent.com/TroLOve-me/JavaScript30/master/06%20-%20Type%20Ahead/cities.json')
+            .then(data => data.json())
+            .then(data => {
+                console.timeEnd('fetch data from github');
+                console.log('hello github');
+            });
+
+        //table
+        console.table(dogs);
+    </script>
+</body>
+
+</html>
