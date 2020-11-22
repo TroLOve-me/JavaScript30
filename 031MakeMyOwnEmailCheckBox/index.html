@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        html,
+        body {
+            background-color: #e55039;
+            font-family: sans-serif;
+        }
+        
+        .inbox {
+            margin: 20px auto;
+            max-width: 400px;
+            max-height: 800px;
+            background-color: #ffffff;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
+        }
+        
+        .item {
+            display: flex;
+            border-bottom: 1px solid #F1F1F1;
+            align-items: center;
+        }
+        
+        .item:last-child {
+            border-bottom: none;
+        }
+        
+        input {
+            margin: 10px 15px
+        }
+        
+        input:checked+p {
+            background-color: #F9F9F9;
+            text-decoration: line-through;
+        }
+        
+        p {
+            padding-left: 20px;
+            border-left: 1px solid #F1F1F1;
+            font-size: 20px;
+            font-weight: 200;
+            flex: 1;
+            line-height: 50px;
+            transition: background 0.5s;
+            font-family: 'helvetica neue';
+        }
+    </style>
+</head>
+
+<body>
+    <div class="inbox">
+        <div class="item">
+            <input type="checkbox">
+            <p>i want to finish this checkbox myself</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>ok let try it </p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>remember to press shift</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>just check one and another</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>then we can delete them all together</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>just do it ! you never know</p>
+        </div>
+    </div>
+    <script>
+        let checkBoxs = document.querySelectorAll('.inbox input[type="checkbox"]');
+        let lastCheck;
+
+        function handleCheckBox(e) {
+            //do a loop here
+            let inBetween = false;
+            if (e.shiftKey && this.checked) {
+                checkBoxs.forEach(checkbox => {
+                    if (checkbox === lastCheck || checkbox === this) {
+                        inBetween = !inBetween
+                    }
+                    if (inBetween) {
+                        checkbox.checked = true;
+                    }
+                })
+            }
+            lastCheck = this;
+        }
+        checkBoxs.forEach(checkbox => checkbox.addEventListener('click', handleCheckBox));
+    </script>
+</body>
+
+</html>
