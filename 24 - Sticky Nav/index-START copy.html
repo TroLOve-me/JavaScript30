@@ -105,6 +105,22 @@
     </div>
 
     <script>
+        const navBar = document.querySelector('#main');
+        let topOfNav = navBar.offsetTop;
+
+        function handleSticky() {
+            //当fix定位后 navBar.offsetTop=0需要有一个值在外边记录
+            //console.log(window.scrollY, navBar.offsetTop, topOfNav);
+            if (window.scrollY >= topOfNav) {
+                document.body.style.paddingTop = navBar.offsetHeight + 'px';
+                document.body.classList.add('nav-fixed');
+                //给body添加body，
+            } else {
+                document.body.style.paddingTop = 0;
+                document.body.classList.remove('nav-fixed');
+            }
+        }
+        window.addEventListener('scroll', handleSticky);
     </script>
 
 </body>
