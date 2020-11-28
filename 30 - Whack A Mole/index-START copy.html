@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Whack A Mole!</title>
+    <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Whack-a-mole! <span class="score">0</span></h1>
+    <h2>Your Max <span class="max_score"></span></h2>
+    <button onClick="startGame()">Start!</button>
+
+    <div class="game">
+        <div class="hole hole1">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole2">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole3">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole4">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole5">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole6">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole7">
+            <div class="mole"></div>
+        </div>
+        <div class="hole hole8">
+            <div class="mole"></div>
+        </div>
+    </div>
+
+    <script>
+        const holes = document.querySelectorAll('.hole');
+        const scoreBoard = document.querySelector('.score');
+        const moles = document.querySelectorAll('.mole');
+        const max_score = document.querySelector('.max_score');
+        let lastHole;
+        let timeUp = false;
+        let score = 0;
+
+        function randomTime(min, max) {
+            return Math.round(Math.random() * (max - min) + min);
+        }
+
+        function randomHole(holes) {
+            const idx = Math.floor(Math.random() * holes.length);
+            const hole = holes[idx];
+            if (lastHole === hole) {
+                console.log('Ah is the same hole');
+                return randomHole(holes);
+            }
+            lastHole = hole;
+            return hole;
+        }
+
+        function peep() {
+            const time = randomTime(200, 1200);
+            const hole = randomHole(holes);
+            hole.classList.add('up')
+            setTimeout(() => {
+                hole.classList.remove('up');
+                if (!timeUp) peep();
+            }, time);
+        }
+
+        function startGame() {
+            scoreBoard.textContent = 0;
+            score = 0;
+            timeUp = false;
+            peep();
+            setTimeout(() => timeUp = true, 4000);
+        }
+
+        function showMax() {
+            max_score.textContent = localStorage.getItem('score');
+        }
+
+        function bonk(e) {
+            if (!e.isTrusted) return; //表明这个事件不是由用户点击触发的，而是 脚本编辑的
+            score++;
+            e.target.parentNode.classList.remove('up');
+            scoreBoard.textContent = score;
+            if (score > localStorage.getItem('score')) {
+                localStorage.setItem('score', score);
+                showMax();
+            }
+        }
+        moles.forEach(mole => mole.addEventListener('click', bonk));
+        showMax();
+    </script>
+</body>
+
+</html>
